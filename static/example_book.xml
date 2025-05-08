@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Example Document</title>
+        <author xml:id="a1">Jane Doe</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>Unpublished draft</p>
+      </publicationStmt>
+      <sourceDesc>
+        <p>Born digital.</p>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div>
+        <head>Introduction</head>
+        <p>This is a minimal TEI document. <notes type="culture">obama</notes></p>
+        <pb n="2"/>
+        <p>It uses the TEI namespace and core elements.</p>
+        <pb n="3"/>
+        <p>test</p>
+        <pb n="4"/>
+        <p>test 2</p>
+      </div>
+    </body>
+  </text>
+</TEI>

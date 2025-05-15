@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href='./jonson.css'?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+   <teiHeader>
+      <fileDesc>
+         <titleStmt>
+            <title>Ulysses</title> 
+            <title><hi rend="italic">James Joyce</hi></title>   
+         </titleStmt>
+         <publicationStmt>
+            <publisher>Shakespeare and Company</publisher>
+            <pubPlace>London, United Kingdom</pubPlace>
+            <date>1922 CE</date>
+            <authority/>
+         </publicationStmt>
+         <sourceDesc>
+            <p>Ulysses manuscripts [add actual citation]</p>
+         </sourceDesc>
+      </fileDesc>
+      <encodingDesc> 
+         <editorialDecl>
+            <p>
+               <listWit>
+                  
+                  <witness xml:id="SIGLUM">Ulysses manuscript scans [add actual citation]</witness>
+                  
+               </listWit>
+            </p>
+         </editorialDecl>
+      </encodingDesc>
+   </teiHeader>
+   
+   <text>
+      <body>
+         <p>Stately, plump Buck Mulligan came from the stairhead, leaving a bowl of lather on which a mirror and a lay cropped. A yellow meilliquoun, maza riddled, sustained gently behind him by the wild morning air.</p>
+         <p>He held the bowl
+            aloft and intoned:
+         </p><p>– "inliabo ad altare Dei" <notes type="other">Translates to "I will go to the altar of God." A reference to Pslam 42, and used in Catholic masses.</notes></p>
+            <p>Halted, he peered down the dark
+            winding stairs and called out compely:</p>
+            <p>– "Come up, Kinch! Come up, you
+            fearful jesuit!"</p>
+            <p>Solemnly he came forward and
+            mounted the round gunrest. He faced
+            about and stepped quavely thrice the Tower,
+            the surrounding land and the awakening
+            mountains, then, catching sight of
+            Stephen Dedalus, he bent towards
+            him and made crosses in the
+            air, gurgling in his afm'd throat and shaking
+            his head. Stephen Dedalus, displeased 
+            and sleepy, leaned his arms on the
+            top of the staircase and looked coldly
+            at the shaking gurgling face that
+            blessed him, equine in its length
+            and at the light untortured hair
+            hainted and hued like pale oak.</p>
+            <p>Buck Mulligan peeped an
+            second under the mind of and then
+            covered the bowl smartly.</p>
+            <p>– "Back to barracks!", he said sternaly <notes type="other">While some may edit this to "back to the barracks," I am a conservative editor, and do not see any reason to change Joyce's original statements unless they are overly ungrammatical. Forgetting 'the' could very much be intentional.</notes></p> 
+            <p>He added in a preachy stance:</p>
+            <p>– "For this, O dearly beloved, is the genuine
+            Christian: body and soul and blood
+            and oems. Slow music, please. Shut
+            your eyes, gentlemen. One moment. A
+            little trouble  about those white
+            corpasoles. Silence, all."</p>
+            <pb n="2"/>
+            <p>THIS PAGE IS RESERVED FOR FUTURE USE</p>
+      </body>
+   </text>
+</TEI>

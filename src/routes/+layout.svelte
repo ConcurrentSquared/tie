@@ -10,6 +10,13 @@
 		src: local(''), url('/Libre_Baskerville/LibreBaskerville-Regular.ttf') format('truetype')
 	}
 
+	@font-face {
+		font-family: 'Libre Baskerville';
+		font-style: normal;
+		font-weight: bold;
+		src: local(''), url('/Libre_Baskerville/LibreBaskerville-Bold.ttf') format('truetype')
+	}
+
 	:global(body) {
 		overflow: hidden;
 	}

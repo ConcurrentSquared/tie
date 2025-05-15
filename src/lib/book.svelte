@@ -4,7 +4,8 @@
 	import Item, { type NoteData, type PageData } from "./item.svelte";
 
 	const parserOptions: X2jOptions = {
-		preserveOrder: true
+		preserveOrder: true,
+		ignoreAttributes: false
 	}
 	
 	const xmlParser = new XMLParser(parserOptions);
@@ -19,12 +20,13 @@
 
 		const centDiv: any[] = jsonTree[4]?.TEI[1]?.text[0]?.body;
 		if (!centDiv) return;
-
+		console.log(JSON.stringify(centDiv))
 		for (const block of centDiv) {
 			const blockType = Object.keys(block)[0];
 			const blockContent = block[blockType]?.[0];
-			const blockNotes = block[blockType]?.[1];
-			console.log(JSON.stringify(block[blockType]))
+			const blockNotes = block[blockType]?.slice(1);
+			
+			const blockNoteTypes = blockNotes.map((n: any) => (n[":@"]["@_type"]));
 
 			if (blockType === "pb") {
 				pages.push(pageData);
@@ -35,9 +37,10 @@
 					: '';
 
 					let notes: NoteData[] = new Array();
-					if (blockNotes != null) {
-						const notesRaw = blockNotes.notes.map((n: any) => n['#text']);
-						notes = notesRaw.map((_text: string) => { return { type: "other", text: _text}})
+					if (blockNotes.length != 0) {
+						const notesRaw = blockNotes.map((n: any, index: number) => {if(blockNoteTypes[index] == "collation") {return JSON.stringify(n.note[0]['list'])} else {return n.note[0]['#text']}});
+
+						notes = notesRaw.map((_text: string, index: number) => { return { type: blockNoteTypes[index], text: _text}})
 					}
 					
 					pageData.push({ type: blockType, text, notes });

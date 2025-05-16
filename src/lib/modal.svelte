@@ -3,12 +3,15 @@
 
 	let {noteData, positionX, positionY, visible, internalRef = $bindable()} = $props();
 	let collationList: any = $state(new Array());
+	let displayText: boolean = $state(true)
 
 	noteData.forEach((note: any) => {
-		if ((note.type == 'collation') && (note.text != '')) {
+		if ((note.type == 'collation')) {
 			console.log(note.text);
 			collationList = JSON.parse(note.text);
-			note.text = '';
+
+			displayText = false;
+			
 		}
 	});
 </script>
@@ -16,15 +19,15 @@
 <style>
 	div {
 		position: absolute;
-		width: 300px;
-		height: 200px;
+		width: 400px;
+		height: 300px;
 
 		background-color: white;
 		border: 2px solid black;
 
 		padding: 5px;
 
-		overflow: scroll;
+		overflow-x: scroll;
 	}
 
 	p, h1, h2, ul, li {
@@ -55,7 +58,9 @@
 	{:else}
 	<h2>Other Notes:</h2>
 	{/if}
-	<p>{item.text}</p>
+	{#if displayText == true}
+		<p>{item.text}</p>
+	{/if}
 	{/each}
 </div>
 {/if}

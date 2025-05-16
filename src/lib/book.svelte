@@ -17,11 +17,9 @@
 
 	function flattenTree(jsonTree: any[]): void {
 		let pageData: PageData[] = [];
-
-		const centDiv: any[] = jsonTree[4]?.TEI[1]?.text[0]?.body;
-		if (!centDiv) return;
-		console.log(JSON.stringify(centDiv))
-		for (const block of centDiv) {
+		if (!jsonTree) return;
+		console.log(JSON.stringify(jsonTree))
+		for (const block of jsonTree) {
 			const blockType = Object.keys(block)[0];
 			const blockContent = block[blockType]?.[0];
 			const blockNotes = block[blockType]?.slice(1);
@@ -56,9 +54,53 @@
 
 		console.log("Here:" + JSON.stringify(teiTree))
 
-		flattenTree(teiTree);
+		flattenTree(teiTree[4]?.TEI[1]?.text[0]?.front);
+		flattenTree(teiTree[4]?.TEI[1]?.text[1]?.body);
+		flattenTree(teiTree[4]?.TEI[1]?.text[2]?.back);
 		console.log(JSON.stringify(pages));
 	});
+
+	function onPreviousPage() {
+		pageNumber -= 2;
+		Math.min(Math.max(pageNumber, 0), 12);
+	}
+
+	function onNextPage() {
+		pageNumber += 2;
+		Math.min(Math.max(pageNumber, 0), 12);
+	}
+
+	// from: https://stackoverflow.com/questions/9083037/convert-a-number-into-a-roman-numeral-in-javascript
+	function RomanizePageNumberIfNegative(numeral: number, pageZero: number) {
+		var roman: any = {
+			M: 1000,
+			CM: 900,
+			D: 500,
+			CD: 400,
+			C: 100,
+			XC: 90,
+			L: 50,
+			XL: 40,
+			X: 10,
+			IX: 9,
+			V: 5,
+			IV: 4,
+			I: 1
+		};
+		var str = '';
+		if((numeral - pageZero) > 0) {
+			return String((numeral - pageZero));
+		}
+
+		var newNumeral = Math.abs(numeral - pageZero); 
+		for (var i of Object.keys(roman)) {
+			var q = Math.floor(newNumeral / roman[i]);
+			newNumeral -= q * roman[i];
+			str += i.repeat(q);
+		}
+
+		return str;
+	}
 </script>
 
 <style>
@@ -96,13 +138,45 @@
 		display: flex;
 		flex-direction: column;
 		height: 100vh;
-		padding: 5px;
+		padding: 100px;
+		padding-top: 5px;
+		padding-bottom: 5px;
     	box-sizing: border-box;
 	}
 
 	.page {
 		flex: 1;
 		min-width: 0;
+	}
+
+	.page_turn_buttons_container {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		pointer-events: none;
+		padding: 5px;
+	}
+
+	.meta_container {
+		display: flex;
+		z-index: 40;
+		height: 100vh;
+		width: 100vw;
+		position: absolute;
+		top: 0;
+		left: 0;
+		flex-direction: column;
+		justify-content: center;
+		pointer-events: none;
+	}
+
+	button {
+		height: 70px;
+		width: 70px;
+
+		background-color: white;
+		border: 5px solid black;
+		pointer-events: auto
 	}
 </style>
 
@@ -117,5 +191,7 @@
 			</div>
 		{/each}
 	</div>
-	<div class="footer_container"><p>1</p><p>2</p></div>
+	<div class="footer_container"><p>{RomanizePageNumberIfNegative(pageNumber, 8)}</p><p>{RomanizePageNumberIfNegative(pageNumber + 1, 8)}</p></div>
 </div>
+
+<div class="meta_container"><div class="page_turn_buttons_container"><button onclick={onPreviousPage}>Previous Page</button><button onclick={onNextPage}>Next Page</button></div></div>

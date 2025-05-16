@@ -3,6 +3,7 @@
 	import { onMount } from "svelte";
 	import Item, { type NoteData, type PageData } from "./item.svelte";
 	import { base } from '$app/paths';
+	import { page } from "$app/state";
 
 
 	const parserOptions: X2jOptions = {
@@ -17,20 +18,28 @@
 	let pages: PageData[][] = $state(new Array());
 	let pageNumber = $state(0);
 
-	function flattenTree(jsonTree: any[]): void {
+	function flattenTree(jsonTree: any[], notes: boolean): void {
 		let pageData: PageData[] = [];
 		if (!jsonTree) return;
-		console.log(JSON.stringify(jsonTree))
+
 		for (const block of jsonTree) {
 			const blockType = Object.keys(block)[0];
 			const blockContent = block[blockType]?.[0];
-			var blockNotes = new Array();
-			var blockNoteTypes = new Array();
 
-			if (block[blockType]?.slice(1) != null) {
-				blockNotes = block[blockType]?.slice(1);
-				console.log(JSON.stringify(blockNotes));
-				blockNoteTypes = blockNotes.map((n: any) => (n[":@"]["@_type"]));
+			var blockNotes: any = new Array();
+			var blockNoteTypes: Array<any> = new Array();
+
+			if (notes == true) {
+				if(block[blockType][1]?.note != undefined) {
+					blockNotes = block[blockType][1]?.note;
+				}
+
+				blockNotes = block[blockType]
+					.filter((item: any) => 'note' in item)
+					.map((item: any) => item);
+				
+			    blockNoteTypes = blockNotes.map((item: any) => (item[':@']['@_type']));
+				console.log(JSON.stringify(blockNoteTypes));
 			}
 			
 			if (blockType === "pb") {
@@ -41,14 +50,19 @@
 					? String(blockContent['#text'])
 					: '';
 
+				if (notes == true) {
 					let notes: NoteData[] = new Array();
 					if (blockNotes.length != 0) {
 						const notesRaw = blockNotes.map((n: any, index: number) => {if(blockNoteTypes[index] == "collation") {return JSON.stringify(n.note[0]['list'])} else {return n.note[0]['#text']}});
 
-						notes = notesRaw.map((_text: string, index: number) => { return { type: blockNoteTypes[index], text: _text}})
+						notes = notesRaw.map((_text: string, index: number) => { console.log(_text); return { type: blockNoteTypes[index], text: _text}})
 					}
 					
 					pageData.push({ type: blockType, text, notes });
+				} else {
+					let notes: NoteData[] = new Array();
+					pageData.push({ type: blockType, text, notes });
+				}
 			}
 		}
 
@@ -56,15 +70,12 @@
 	}
 	
 	onMount(async () => {
-		const res = await fetch("https://concurrentsquared.github.io/gh-pages-joyce/joyce.xml");
+		const res = await fetch("joyce.xml");
 		teiTree = xmlParser.parse(await res.text());
 
-		console.log("Here:" + JSON.stringify(teiTree[4]?.TEI[1]?.text[2]?.back))
-
-		flattenTree(teiTree[4]?.TEI[1]?.text[0]?.front);
-		flattenTree(teiTree[4]?.TEI[1]?.text[1]?.body);
-		flattenTree(teiTree[4]?.TEI[1]?.text[2]?.back);
-		console.log(JSON.stringify(pages));
+		flattenTree(teiTree[4]?.TEI[1]?.text[0]?.front, true);
+		flattenTree(teiTree[4]?.TEI[1]?.text[1]?.body, true);
+		flattenTree(teiTree[4]?.TEI[1]?.text[2]?.back, false);
 	});
 
 	function onPreviousPage() {

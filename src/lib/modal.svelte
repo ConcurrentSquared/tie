@@ -7,11 +7,8 @@
 
 	noteData.forEach((note: any) => {
 		if ((note.type == 'collation')) {
-			console.log(note.text);
 			collationList = JSON.parse(note.text);
-
-			displayText = false;
-			
+			note.text = ''
 		}
 	});
 </script>

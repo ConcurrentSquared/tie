@@ -2,6 +2,8 @@
 	import { XMLParser, XMLBuilder, XMLValidator, type X2jOptions } from "fast-xml-parser";
 	import { onMount } from "svelte";
 	import Item, { type NoteData, type PageData } from "./item.svelte";
+	import { base } from '$app/paths';
+
 
 	const parserOptions: X2jOptions = {
 		preserveOrder: true,
@@ -49,7 +51,7 @@
 	}
 	
 	onMount(async () => {
-		const res = await fetch("/joyce.xml");
+		const res = await fetch("https://concurrentsquared.github.io/gh-pages-joyce/joyce.xml");
 		teiTree = xmlParser.parse(await res.text());
 
 		console.log("Here:" + JSON.stringify(teiTree))

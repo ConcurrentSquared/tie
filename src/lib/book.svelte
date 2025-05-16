@@ -24,10 +24,15 @@
 		for (const block of jsonTree) {
 			const blockType = Object.keys(block)[0];
 			const blockContent = block[blockType]?.[0];
-			const blockNotes = block[blockType]?.slice(1);
-			
-			const blockNoteTypes = blockNotes.map((n: any) => (n[":@"]["@_type"]));
+			var blockNotes = new Array();
+			var blockNoteTypes = new Array();
 
+			if (block[blockType]?.slice(1) != null) {
+				blockNotes = block[blockType]?.slice(1);
+				console.log(JSON.stringify(blockNotes));
+				blockNoteTypes = blockNotes.map((n: any) => (n[":@"]["@_type"]));
+			}
+			
 			if (blockType === "pb") {
 				pages.push(pageData);
 				pageData = [];
@@ -54,7 +59,7 @@
 		const res = await fetch("https://concurrentsquared.github.io/gh-pages-joyce/joyce.xml");
 		teiTree = xmlParser.parse(await res.text());
 
-		console.log("Here:" + JSON.stringify(teiTree))
+		console.log("Here:" + JSON.stringify(teiTree[4]?.TEI[1]?.text[2]?.back))
 
 		flattenTree(teiTree[4]?.TEI[1]?.text[0]?.front);
 		flattenTree(teiTree[4]?.TEI[1]?.text[1]?.body);
